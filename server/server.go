@@ -8,6 +8,7 @@ import (
 
 	httprouter "github.com/julienschmidt/httprouter"
 	models "github.com/softtacos/retroBot/models"
+	"github.com/softtacos/retroBot/util"
 	// transport"github.com/softtacos/retroBot/transport"
 )
 
@@ -29,9 +30,11 @@ import (
 // }
 
 func NewRetroServer(service models.RetroServices, port string, errChan chan error) *RetroServer {
-	websites := [][2]string{}
+	webpages := [][2]string{
+		[2]string{"/index.html", string(util.LoadTextFile("html/index.html"))},
+	}
 	server := &RetroServer{
-		router:  NewRouter(websites),
+		router:  NewRouter(webpages),
 		port:    port,
 		errChan: errChan,
 		service: service,
