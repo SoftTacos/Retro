@@ -3,27 +3,27 @@ package transport
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"strings"
 
-	"github.com/softtacos/retroBot/models"
+	models "github.com/softtacos/retroBot/models"
 )
 
-func ParseHttpSendEmailRequest(ctx context.Context, r *http.Request) (interface{}, error) {
-	sendEmailRequest := &models.RetroRequest{}
+func ParseRetroRequest(ctx context.Context, r *http.Request) (interface{}, error) {
+	request := &models.RetroRequest{}
 	uri := r.URL.RequestURI()
 	defer r.Body.Close()
-	sendEmailRequest.URI = strings.Split(uri, "/")
+	request.URI = strings.Split(uri, "/")
 	bodyBytes, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		fmt.Println("Error decoding SendEmailRequest ", err)
-		return "Error decoding SendEmailRequest ", err
+		log.Println("Error decoding Request ", err)
+		return "Error decoding Request ", err
 	}
-	sendEmailRequest.Body = string(bodyBytes)
+	request.Body = string(bodyBytes)
 
-	return sendEmailRequest, nil
+	return request, nil
 }
 
 func EncodeHttpResponse(_ context.Context, w http.ResponseWriter, response interface{}) error {

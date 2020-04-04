@@ -5,16 +5,17 @@ import (
 
 	httpTransport "github.com/go-kit/kit/transport/http"
 	endpoint "github.com/softtacos/retroBot/endpoint"
+	"github.com/softtacos/retroBot/transport"
 )
 
-func NewHttpMessageServer(service models.MessagingService, port string, errChan chan error) {
-	httpSendEmailHandler := httpTransport.NewServer(
-		endpoint.MakeSendEmailEndpoint(service),
-		transport.ParseHttpSendEmailRequest,
+func NewHttpRetroServer(service models.MessagingService, port string, errChan chan error) {
+	httpHandler := httpTransport.NewServer(
+		endpoint.MakeRetroEndpoint(service),
+		transport.ParseRetroRequest,
 		transport.EncodeHttpResponse,
 	)
 
-	http.Handle("/", httpSendEmailHandler)
+	http.Handle("/", httpHandler)
 
 	//logger.Log("msg", "HTTP", "addr", port)
 	go func() {

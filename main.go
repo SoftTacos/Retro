@@ -2,19 +2,25 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 
-	gopg "github.com/go-pg/pg"
+	// queries "github.com/softtacos/retroBot/queries"
+	"github.com/softtacos/retroBot/service"
+	util "github.com/softtacos/retroBot/util"
 )
 
+//postgresql://[user[:password]@][netloc][:port][,...][/dbname][?param1=value1&...]
 func main() {
 	dburl := os.Getenv("DBURL")
-	db, err := gopg.ParseURL(dburl)
+	db, err := util.NewGoPgDb(dburl)
 	if err != nil {
 		fmt.Println(err)
 	} else {
 		fmt.Println(db)
 	}
-	fmt.Println(dburl)
 
+	retroService := service.NewRetroService(db)
+	log.Println(retroService)
+	// server:=server.NewHttpRetroServer(
 }

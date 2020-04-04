@@ -1,0 +1,20 @@
+
+CREATE TABLE users(
+	id SERIAL PRIMARY KEY,
+	first_name varchar(50),
+	email varchar(50),
+	avatar_url varchar(50)
+);
+
+CREATE TABLE retro_meetings(
+	id SERIAL PRIMARY KEY,
+	date DATE
+);
+
+CREATE TABLE retro_meeting_notes(
+	id SERIAL PRIMARY KEY,
+	meeting_id INTEGER REFERENCES retro_meetings(id),
+	user_id INTEGER REFERENCES users(id),
+	body varchar(1024),
+	sentiment smallint
+);

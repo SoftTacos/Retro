@@ -1,6 +1,6 @@
 package models
 
 type Response struct {
-	Status string
+	Status int
 	Body   string
 }
