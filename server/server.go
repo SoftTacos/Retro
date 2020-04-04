@@ -21,7 +21,7 @@ func StartHttpRetroServer(service models.RetroServices, port string, errChan cha
 	//logger.Log("msg", "HTTP", "addr", port)
 	go func() {
 		for {
-			errChan <- http.ListenAndServe(port, nil)
+			errChan <- http.ListenAndServe(":"+port, nil)
 		}
 	}()
 }
