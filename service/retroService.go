@@ -18,6 +18,7 @@ type RetroService struct {
 	db *gopg.DB
 }
 
+//routing function
 func (rs *RetroService) HandleRetroRequest(req *models.RetroRequest) *models.Response {
 	log.Println("HIT IT")
 	return &models.Response{

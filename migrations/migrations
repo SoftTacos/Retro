@@ -11,7 +11,7 @@ CREATE TABLE retro_meetings(
 	date DATE
 );
 
-CREATE TABLE retro_meeting_notes(
+CREATE TABLE retro_meeting_items(
 	id SERIAL PRIMARY KEY,
 	meeting_id INTEGER REFERENCES retro_meetings(id),
 	user_id INTEGER REFERENCES users(id),
