@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+  <body>
+    <div id="wrapper" >
+			<canvas id="c" class="visualizer" width="1000" height="800"></canvas>
+		</div>
+  </body>
+</html>
+
+<script>
+let socket = new WebSocket("ws://localhost:8082/visualizerSocket");
+// socket.binaryType = 'arraybuffer';//would like to switch back and forth eventually?
+
+// ## SOCKET EVENTS ##
+socket.onopen = function(event) {
+  console.log("Connected");
+};
+
+//https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent
+socket.onmessage = function(event) {
+  console.log(event)
+};
+
+socket.onclose = function(event) {
+  if (event.wasClean) {
+    console.log(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
+  } else {
+    console.log('[close] Connection died');
+  }
+};
+
+socket.onerror = function(error) {
+  console.log(`[error] ${error.message}`);
+};
+
+
+var toType = function(obj) {//from: http://javascriptweblog.wordpress.com/2011/08/08/fixing-the-javascript-typeof-operator/
+  return ({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase()
+}
+</script>

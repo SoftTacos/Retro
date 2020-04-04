@@ -14,7 +14,7 @@ import (
 //postgresql://[user[:password]@][netloc][:port][,...][/dbname][?param1=value1&...]
 func main() {
 	dburl := os.Getenv("DBURL")
-	port := "9001"
+	port := ":9001"
 	errChan := make(chan error, 1)
 
 	db, err := util.NewGoPgDb(dburl)
@@ -26,7 +26,8 @@ func main() {
 
 	retroService := service.NewRetroService(db)
 	log.Println(retroService)
-	server.StartHttpRetroServer(retroService, port, errChan)
+	retroServer := server.NewRetroServer(retroService, port, errChan)
+	retroServer.Start()
 	log.Println("RETRO SERVICE LISTENING ON PORT :", port)
 	for {
 		log.Println(<-errChan)
