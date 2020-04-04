@@ -9,16 +9,12 @@ import (
 )
 
 func MakeRetroEndpoint(next models.RetroServices) endpoint.Endpoint {
-
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
-		//parse the request
-
+		//type assert the request
+		req := request.(*models.RetroRequest)
 		//call the service
-
+		res := next.HandleRetroRequest(req)
 		//return
-		return &models.Response{
-			Status: -1,
-			Body:   "",
-		}, nil //if err !=, then it won't return the response, just the error. We want to return everything.
+		return res, nil //if err !=, then it won't return the response, just the error. We want to return everything.
 	}
 }

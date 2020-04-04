@@ -20,5 +20,8 @@ type RetroService struct {
 
 func (rs *RetroService) HandleRetroRequest(req *models.RetroRequest) *models.Response {
 	log.Println("HIT IT")
-	return nil
+	return &models.Response{
+		Status: -1,
+		Body:   "",
+	}
 }

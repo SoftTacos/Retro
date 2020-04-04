@@ -21,7 +21,7 @@ func ParseRetroRequest(ctx context.Context, r *http.Request) (interface{}, error
 		log.Println("Error decoding Request ", err)
 		return "Error decoding Request ", err
 	}
-	request.Body = string(bodyBytes)
+	request.Body = bodyBytes
 
 	return request, nil
 }

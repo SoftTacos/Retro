@@ -27,7 +27,7 @@ func main() {
 	retroService := service.NewRetroService(db)
 	log.Println(retroService)
 	server.StartHttpRetroServer(retroService, port, errChan)
-
+	log.Println("RETRO SERVICE LISTENING ON PORT :", port)
 	for {
 		log.Println(<-errChan)
 	}
