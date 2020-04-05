@@ -15,7 +15,7 @@ func NewRouter(webpages [][2]string) *httprouter.Router {
 		router.GET(webpages[i][0], PageHandler(webpages[i][1]))
 	}
 	socketHandler := handlers.NewSocketManager()
-	router.GET("/join/:meeting", socketHandler.AddConnection)
+	router.GET("/join", socketHandler.AddConnection)
 	return router
 }
 
