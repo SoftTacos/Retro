@@ -2,7 +2,6 @@ package server
 
 import (
 	"fmt"
-	"html"
 	"net/http"
 
 	httprouter "github.com/julienschmidt/httprouter"
@@ -21,6 +20,6 @@ func NewRouter(webpages [][2]string) *httprouter.Router {
 
 func PageHandler(webpage string) func(http.ResponseWriter, *http.Request, httprouter.Params) {
 	return func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-		fmt.Fprintf(w, webpage, html.EscapeString(r.URL.Path))
+		fmt.Fprintf(w, webpage) //, html.EscapeString(r.URL.Path)
 	}
 }

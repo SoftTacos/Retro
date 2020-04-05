@@ -1,6 +1,7 @@
 package server
 
 import (
+	"fmt"
 	"net/http"
 
 	// httpTransport "github.com/go-kit/kit/transport/http"
@@ -31,8 +32,10 @@ import (
 
 func NewRetroServer(service models.RetroServices, port string, errChan chan error) *RetroServer {
 	webpages := [][2]string{
-		[2]string{"/index.html", string(util.LoadTextFile("html/index.html"))},
+		[2]string{"/chatroom.html", string(util.LoadTextFile("html/chatroom.html"))},
+		[2]string{"/landing.html", string(util.LoadTextFile("html/landing.html"))},
 	}
+	fmt.Println(webpages[1])
 	server := &RetroServer{
 		router:  NewRouter(webpages),
 		port:    port,

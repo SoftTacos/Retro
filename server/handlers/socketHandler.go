@@ -42,6 +42,17 @@ func (sh *SocketManager) CloseConnection(client *SocketClient) error {
 	return nil
 }
 
+func (sh *SocketManager) Broadcase(message []byte) error {
+	var err error
+	for client := range sh.connections {
+		err = client.Send(message)
+		if err != nil {
+			log.Println(err)
+		}
+	}
+	return nil
+}
+
 func NewSocketClient(manager *SocketManager, conn *websocket.Conn) *SocketClient {
 	client := &SocketClient{
 		conn: conn,
@@ -60,13 +71,22 @@ type SocketClient struct {
 //this only sends, for now we don't need to listen to the socket
 //messageType is an int and can be 1:Text([]uint8|[]byte), 2:binary(), 8:closemessage, 9:ping message, 10:pong message?
 func (sc *SocketClient) Start() {
-	var err error
-	for open := true; open; {
-		if err = sc.conn.WriteMessage(1, []byte("DAVAI DAVAI")); err != nil {
-			log.Println(err)
-			return
-		}
+	log.Println("SOCKET CLIENT STARTED: ", sc.conn)
+	// var err error
+	// for open := true; open; {
+	// 	if err = sc.conn.WriteMessage(1, []byte("DAVAI DAVAI")); err != nil {
+	// 		log.Println(err)
+	// 		return
+	// 	}
+	// }
+}
+
+func (sc *SocketClient) Send(message []byte) error {
+	if err := sc.conn.WriteMessage(1, message); err != nil {
+		log.Println(err)
+		return err
 	}
+	return nil
 }
 
 func SetupCloseHandler(manager *SocketManager, client *SocketClient) func(int, string) error {

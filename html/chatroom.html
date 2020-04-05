@@ -2,16 +2,17 @@
 <html>
 
 <body>
-  <div id="wrapper">
-    <canvas id="c" class="visualizer" width="1000" height="800"></canvas>
+  <div id="main">
+
   </div>
 </body>
 
 </html>
 
+
 <script>
-  console.log("HREF:",window.location.host)
-  let socket = new WebSocket("ws://" + window.location.host + "/" + "join");
+  console.log("HREF:", window.location.href)
+  let socket = new WebSocket("ws://" + window.location.host + "/" + "join" + chatroom);
   // socket.binaryType = 'arraybuffer';//would like to switch back and forth eventually?
 
   // ## SOCKET EVENTS ##
