@@ -84,6 +84,7 @@ func (sc *SocketClient) Listen() {
 		// 	log.Println(err)
 		// 	return
 		// }
+		sc.Send(p)
 	}
 }
 
