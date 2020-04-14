@@ -12,12 +12,14 @@
 
 <script>
   console.log("HREF:", window.location.href)
-  let socket = new WebSocket("ws://" + window.location.host + "/" + "join" + chatroom);
+  chatroom=1
+  let socket = new WebSocket("ws://" + window.location.host + "/" + "join")// +"/"+ chatroom);
   // socket.binaryType = 'arraybuffer';//would like to switch back and forth eventually?
 
   // ## SOCKET EVENTS ##
   socket.onopen = function (event) {
     console.log("Connected");
+    socket.send("hello!");
   };
 
   //https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent

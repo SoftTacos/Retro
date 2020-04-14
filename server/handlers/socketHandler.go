@@ -6,6 +6,7 @@ import (
 
 	"github.com/gorilla/websocket"
 	"github.com/julienschmidt/httprouter"
+	dbModels "github.com/softtacos/retrobot/models/db"
 )
 
 func NewSocketManager() *SocketManager {
@@ -34,7 +35,7 @@ func (sh *SocketManager) AddConnection(w http.ResponseWriter, r *http.Request, _
 	log.Println("Vis Socket Connected!")
 	client := NewSocketClient(sh, ws)
 	sh.connections[client] = true
-	client.Start()
+	client.Listen()
 }
 
 func (sh *SocketManager) CloseConnection(client *SocketClient) error {
@@ -63,6 +64,7 @@ func NewSocketClient(manager *SocketManager, conn *websocket.Conn) *SocketClient
 }
 
 type SocketClient struct {
+	user    *dbModels.User
 	manager *SocketManager
 	conn    *websocket.Conn
 	//chan to communicate with socket manager?
@@ -70,15 +72,19 @@ type SocketClient struct {
 
 //this only sends, for now we don't need to listen to the socket
 //messageType is an int and can be 1:Text([]uint8|[]byte), 2:binary(), 8:closemessage, 9:ping message, 10:pong message?
-func (sc *SocketClient) Start() {
-	log.Println("SOCKET CLIENT STARTED: ", sc.conn)
-	// var err error
-	// for open := true; open; {
-	// 	if err = sc.conn.WriteMessage(1, []byte("DAVAI DAVAI")); err != nil {
-	// 		log.Println(err)
-	// 		return
-	// 	}
-	// }
+func (sc *SocketClient) Listen() {
+	for open := true; open; {
+		messageType, p, err := sc.conn.ReadMessage()
+		if err != nil {
+			log.Println(err)
+			return
+		}
+		log.Println("MESSAGE RECIEVED: ", messageType, string(p))
+		// if err = sc.conn.WriteMessage(1, []byte("DAVAI DAVAI")); err != nil {
+		// 	log.Println(err)
+		// 	return
+		// }
+	}
 }
 
 func (sc *SocketClient) Send(message []byte) error {
